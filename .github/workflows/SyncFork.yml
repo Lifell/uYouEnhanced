@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: tgymnich/fork-sync@v2.0
         with:
-          owner: Lifell
-          base: master
+          owner: lifell
+          base: main
           head: main
