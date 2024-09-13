@@ -1,1 +1,18 @@
-                uses: tgymnich/fork-sync@v2.0.10
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: '*/30 * * * *' # every 30 minutes
+  workflow_dispatch: # on button click
+
+jobs:
+  sync:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: tgymnich/fork-sync@v2.0
+        with:
+          owner: Lifell
+          base: main
+          head: main
