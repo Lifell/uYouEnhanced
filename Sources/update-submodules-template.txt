@@ -24,6 +24,7 @@ jobs:
           git submodule add https://github.com/arichornloverALT/YTHoldForSpeed.git Tweaks/YTHoldForSpeed
           git submodule add https://github.com/arichornloverALT/YouGroupSettings.git Tweaks/YouGroupSettings
           git submodule add https://github.com/arichornloverALT/YouTimeStamp.git Tweaks/YouTimeStamp
+          git submodule add https://github.com/bhackel/YouLoop.git Tweaks/YouLoop
           git submodule add https://github.com/protocolbuffers/protobuf.git Tweaks/protobuf
           git add .
           git commit -m "added uYouEnhanced submodules"
@@ -65,6 +66,8 @@ jobs:
           git add .
           git submodule update --init --recursive --remote Tweaks/YouMute
           git add .
+          git submodule update --init --recursive --remote Tweaks/YouLoop
+          git add .
           git submodule update --init --recursive --remote Tweaks/YouPiP
           git add .
           git submodule update --init --recursive --remote Tweaks/YouQuality
@@ -87,6 +90,7 @@ jobs:
           ln -s ../Tweaks/uYouLocalization/layout/Library/Application\ Support/uYouLocalization.bundle uYouLocalization.bundle
           ln -s ../Tweaks/YTHoldForSpeed/layout/Library/Application\ Support/YTHoldForSpeed.bundle YTHoldForSpeed.bundle
           ln -s ../Tweaks/YouGroupSettings/layout/Library/Application\ Support/YouGroupSettings.bundle YouGroupSettings.bundle
+          ln -s ../Tweaks/YouLoop/layout/Library/Application\ Support/YouLoop.bundle YouLoop.bundle
           ln -s ../Tweaks/YouTimeStamp/layout/Library/Application\ Support/YouTimeStamp.bundle YouTimeStamp.bundle
           git add .
           git commit -m "Added bundles"
@@ -97,9 +101,11 @@ jobs:
 #     - name: Delete .bundle files
 #       run: |
 #         cd Bundles
+#         rm -f MrBeastify.bundle
 #         rm -f uYouLocalization.bundle
 #         rm -f YTHoldForSpeed.bundle
 #         rm -f YouGroupSettings.bundle
+#         rm -f YouLoop.bundle
 #         rm -f YouTimeStamp.bundle
 #         git add .
 #         git commit -m "Deleted bundles"

@@ -392,11 +392,11 @@ static void refreshUYouAppearance() {
 
 %ctor {
     %init;
-    if (IS_ENABLED(@"googleSignInPatch_enabled")) {
+    if (IS_ENABLED(kGoogleSignInPatch)) {
         %init(gGoogleSignInPatch);
     }
 /*
-    if (IS_ENABLED(@"youtubeNativeShare_enabled")) {
+    if (IS_ENABLED(kYouTubeNativeShare)) {
         %init(gYouTubeNativeShare);
     }
 */

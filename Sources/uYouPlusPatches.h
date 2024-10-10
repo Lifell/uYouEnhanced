@@ -75,6 +75,7 @@
 @interface ELMPBShowActionSheetCommand : GPBMessage
 @property (nonatomic, strong, readwrite) ELMPBCommand *onAppear;
 @property (nonatomic, assign, readwrite) BOOL hasOnAppear;
+- (id)listOptionArray;
 @end
 
 @interface ELMContext : NSObject

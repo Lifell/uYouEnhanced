@@ -10,10 +10,13 @@ static BOOL lowContrastMode() {
 static BOOL customContrastMode() {
     return IS_ENABLED(@"lowContrastMode_enabled") && contrastMode() == 1;
 }
+// static UIColor *whiteTextColor() {
+//     return [UIColor whiteColor];
+// }
 
 UIColor *lcmHexColor;
 
-%group gLowContrastMode // Low Contrast Mode v1.5.2 (Compatible with only YouTube v17.33.2-v17.38.10)
+%group gLowContrastMode // Low Contrast Mode v1.6.0 BETA (Compatible with only YouTube v17.33.2-v17.38.10)
 %hook UIColor
 + (UIColor *)whiteColor { // Dark Theme Color
          return [UIColor colorWithRed: 0.56 green: 0.56 blue: 0.56 alpha: 1.00];
@@ -54,39 +57,51 @@ UIColor *lcmHexColor;
 %end
 %hook YTCommonColorPalette
 - (UIColor *)textPrimary {
+    NSLog(@"LowContrastMode: textPrimary called");
     return self.pageStyle == 1 ? [UIColor whiteColor] : %orig;
 }
 - (UIColor *)textSecondary {
+    NSLog(@"LowContrastMode: textSecondary called");
     return self.pageStyle == 1 ? [UIColor whiteColor] : %orig;
 }
 - (UIColor *)overlayTextPrimary {
+    NSLog(@"LowContrastMode: overlayTextPrimary called");
     return self.pageStyle == 1 ? [UIColor whiteColor] : %orig;
 }
 - (UIColor *)overlayTextSecondary {
+    NSLog(@"LowContrastMode: overlayTextSecondary called");
     return self.pageStyle == 1 ? [UIColor whiteColor] : %orig;
 }
 - (UIColor *)iconActive {
+    NSLog(@"LowContrastMode: iconActive called");
     return self.pageStyle == 1 ? [UIColor whiteColor] : %orig;
 }
 - (UIColor *)iconActiveOther {
+    NSLog(@"LowContrastMode: iconActiveOther called");
     return self.pageStyle == 1 ? [UIColor whiteColor] : %orig;
 }
 - (UIColor *)brandIconActive {
+    NSLog(@"LowContrastMode: brandIconActive called");
     return self.pageStyle == 1 ? [UIColor whiteColor] : %orig;
 }
 - (UIColor *)staticBrandWhite {
+    NSLog(@"LowContrastMode: staticBrandWhite called");
     return self.pageStyle == 1 ? [UIColor whiteColor] : %orig;
 }
 - (UIColor *)overlayIconActiveOther {
+    NSLog(@"LowContrastMode: overlayIconActiveOther called");
     return self.pageStyle == 1 ? [UIColor whiteColor] : %orig;
 }
 - (UIColor *)overlayIconInactive {
+    NSLog(@"LowContrastMode: overlayIconInactive called");
     return self.pageStyle == 1 ? [[UIColor whiteColor] colorWithAlphaComponent:0.7] : %orig;
 }
 - (UIColor *)overlayIconDisabled {
+    NSLog(@"LowContrastMode: overlayIconDisabled called");
     return self.pageStyle == 1 ? [[UIColor whiteColor] colorWithAlphaComponent:0.3] : %orig;
 }
 - (UIColor *)overlayFilledButtonActive {
+    NSLog(@"LowContrastMode: overlayFilledButtonActive called");
     return self.pageStyle == 1 ? [[UIColor whiteColor] colorWithAlphaComponent:0.2] : %orig;
 }
 %end
@@ -246,9 +261,18 @@ UIColor *lcmHexColor;
     [modifiedAttributes setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     %orig(modifiedAttributes, state);
 }
+- (void)setCustomTitleTextAttributes:(NSDictionary *)attributes forState:(UIControlState)state {
+    NSMutableDictionary *customAttributes = [NSMutableDictionary dictionaryWithDictionary:attributes];
+    [customAttributes setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    %orig(customAttributes, state);
+}
 %end
 %hook UIButton
 - (void)setTitleColor:(UIColor *)color forState:(UIControlState)state {
+    color = [UIColor whiteColor];
+    %orig(color, state);
+}
+- (void)setCustomTitleColor:(UIColor *)color forState:(UIControlState)state {
     color = [UIColor whiteColor];
     %orig(color, state);
 }
@@ -258,6 +282,11 @@ UIColor *lcmHexColor;
     NSMutableDictionary *modifiedAttributes = [NSMutableDictionary dictionaryWithDictionary:attributes];
     [modifiedAttributes setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     %orig(modifiedAttributes, state);
+}
+- (void)setCustomTitleTextAttributes:(NSDictionary *)attributes forState:(UIControlState)state {
+    NSMutableDictionary *customAttributes = [NSMutableDictionary dictionaryWithDictionary:attributes];
+    [customAttributes setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    %orig(customAttributes, state);
 }
 %end
 %hook NSAttributedString
@@ -550,7 +579,18 @@ UIColor *lcmHexColor;
 %end
 %hook CATextLayer
 - (void)setTextColor:(CGColorRef)textColor {
-    %orig([UIColor whiteColor].CGColor);
+    %orig([[UIColor whiteColor] CGColor]);
+}
+%end
+%hook _ASDisplayView
+- (void)setAttributedText:(NSAttributedString *)attributedText {
+    NSMutableAttributedString *newAttributedString = [attributedText mutableCopy];
+    [newAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, newAttributedString.length)];
+    %orig(newAttributedString);
+}
+- (void)setTextColor:(UIColor *)textColor {
+    textColor = [UIColor whiteColor];
+    %orig(textColor);
 }
 %end
 %hook ASTextNode
@@ -563,20 +603,20 @@ UIColor *lcmHexColor;
 %end
 %hook ASTextFieldNode
 - (void)setTextColor:(UIColor *)textColor {
-   %orig([UIColor whiteColor]);
+    %orig([UIColor whiteColor]);
 }
 %end
 %hook ASTextView
 - (void)setTextColor:(UIColor *)textColor {
-   %orig([UIColor whiteColor]);
+    %orig([UIColor whiteColor]);
 }
 %end
 %hook ASButtonNode
 - (void)setTextColor:(UIColor *)textColor {
-   %orig([UIColor whiteColor]);
+    %orig([UIColor whiteColor]);
 }
 %end
-%hook UIControl // snackbar fix for lcm
+%hook UIControl
 - (UIColor *)backgroundColor {
     return [UIColor blackColor];
 }
