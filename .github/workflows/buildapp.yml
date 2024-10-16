@@ -115,10 +115,16 @@ jobs:
         env:
           THEOS: ${{ github.workspace }}/theos
 
+      - name: Hash YT ipa url
+        run: |
+          URL_YT="$(jq -r '.inputs.decrypted_youtube_url' $GITHUB_EVENT_PATH)"
+          echo ::add-mask::$URL_YT
+          echo URL_YT=$URL_YT >> $GITHUB_ENV
+
       - name: Prepare YouTube iPA
         id: prepare_youtube
         run: |
-          wget "$YOUTUBE_URL" --no-verbose -O main/YouTube.ipa
+          wget "$YOUTUBE_URL" --quiet --no-verbose -O main/YouTube.ipa
           cd ${{ github.workspace }}/main
           mv YouTube.ipa YouTube.zip
           unzip -q YouTube.zip
@@ -129,7 +135,7 @@ jobs:
 
         env:
           THEOS: ${{ github.workspace }}/theos
-          YOUTUBE_URL: ${{ inputs.decrypted_youtube_url }}
+          YOUTUBE_URL: ${{ env.URL_YT }}
 
       - name: Fix compiling & Build Package
         id: build_package
