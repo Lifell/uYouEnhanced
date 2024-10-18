@@ -109,14 +109,16 @@ body:
   validations:
     required: true
 
-- type: checkboxes
+- type: dropdown
   attributes:
     label: Select the configuration used for building or obtaining the uYouEnhanced ipa. (Optional)
     options:
-      - label: "buildapp.yml (GitHub Actions — build method as suggested by [Wiki - Building](https://github.com/arichornlover/uYouEnhanced/wiki/Building))"
-      - label: "build.sh (Shell script)"
-      - label: "AltStore Source (obtained from https://raw.githubusercontent.com/arichornlover/arichornlover.github.io/main/apps.json)"
-      - label: "Other (obtained from untrusted or potentially unsafe sources such as phishing sites, unknown individuals, or unofficial channels.)"
+      - buildapp.yml (GitHub Actions — build method as suggested by [Wiki - Building](https://github.com/arichornlover/uYouEnhanced/wiki/Building))
+      - build.sh (Shell script)
+      - AltStore Source (obtained from https://raw.githubusercontent.com/arichornlover/arichornlover.github.io/main/apps.json)
+      - Other (obtained from untrusted or potentially unsafe sources such as phishing sites, unknown individuals, or unofficial channels.)
+  validations:
+    required: false
 
 - type: textarea
   attributes:
